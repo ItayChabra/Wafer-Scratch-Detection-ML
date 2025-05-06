@@ -1,63 +1,84 @@
-# Wafer Scratch Detection (NI Assignment)
+# 🧠 Wafer Scratch Detection (NI ML Assignment)
 
-This repository contains the solution for a data science assignment given by **National Instruments (NI)**, aimed at building a machine learning model to automatically detect **scratches on semiconductor wafers** using wafer map data.
-
----
-
-## 🧾 Project Overview
-
-In semiconductor manufacturing, wafers consist of many small units called **dies**, some of which can become defective. **Scratches** are elongated patterns of bad dies (and occasionally good ones) that often indicate physical damage. Identifying these scratches is essential to ensure quality and yield.
-
-Currently, the scratch detection process is manual, time-consuming, and error-prone. The purpose of this project is to **automate scratch detection** by predicting which dies—both good and bad—belong to a scratch, helping reduce costs and improve decision-making.
+This repository presents a machine learning solution for a scratch detection task on semiconductor wafers, part of a technical assignment from **National Instruments**. The goal is to automatically identify **scratches**—elongated patterns of defective or seemingly good dies—on wafer maps using spatial data and die quality labels.
 
 ---
 
-## 🎯 Objectives
+## 📌 Problem Context
 
-* Predict which dies on a wafer belong to a scratch (whether they are bad - "Scratch" or good - "Ink")
-* Build an ML model using provided wafer map data (coordinates, die quality, etc.)
-* Make predictions on a test set with unknown scratch labels
-* Output a submission CSV with predictions
-* Ensure the solution supports business goals of **automation** and **quality control**
+In semiconductor fabrication, wafers contain a grid of **dies**, each representing a circuit. Some dies fail quality checks due to physical defects such as **scratches**, which appear as continuous or fragmented lines. Detecting these defects is currently manual, error-prone, and inefficient.
+
+This project proposes a data-driven approach to **automate scratch detection**, improving quality control and reducing inspection time and cost.
 
 ---
 
-## 🧠 Challenges & Solutions
+## 🎯 Project Goals
 
-* **Class imbalance**: Few scratch/ink dies relative to normal ones → used resampling and metric tuning
-* **Spatial structure**: Converted X, Y coordinates into spatial features
-* **Non-continuous scratches**: Developed logic to detect disconnected but related points
-* **Performance constraints**: Employed multiprocessing via `joblib` to parallelize evaluation and predictions
-
----
-
-## 🧪 Approach
-
-1. **Data Exploration**: Visualized wafer maps, distribution of scratch/ink/good dies
-2. **Feature Engineering**: Encoded spatial and neighborhood features
-3. **Modeling**: Trained models including Random Forest, XGBoost
-4. **Validation**: Cross-validation using F1 score, precision, recall
-5. **Testing**: Applied the best model to the test set
-6. **Submission**: Generated CSV of predictions
+* Detect dies associated with a **scratch**, even if the die is still marked as functional ("Ink")
+* Build a robust model using wafer map features (X, Y, category, etc.)
+* Predict scratch labels on an unlabeled test set and submit predictions
+* Demonstrate practical skills in **feature engineering, modeling, and real-world ML deployment**
 
 ---
 
-## 📦 Files
+## 🔍 Key Challenges & Solutions
 
-* `notebook.ipynb` — Main notebook containing all steps from exploration to modeling and submission
-* `scratch_predictions.csv` — Final submission file with predictions for each die in the test set
-* `README.md` — This file
+| Challenge                    | Solution                                                               |
+| ---------------------------- | ---------------------------------------------------------------------- |
+| Severe class imbalance       | Applied resampling and optimized metrics like F1 and precision         |
+| Spatial structure of dies    | Engineered geometric and neighbor-based spatial features               |
+| Disconnected scratches       | Used local clustering + die context to group spatially coherent points |
+| Runtime and scale efficiency | Parallelized processing with `joblib`                                  |
 
 ---
 
-## ⚙️ Tech Stack
+## 🚀 Methodology
+
+1. **Data Analysis**
+   Explored wafer layout, class distributions, and defect patterns.
+
+2. **Feature Engineering**
+   Created spatial features: normalized coordinates, die neighborhood structure, die counts.
+
+3. **Model Selection**
+   Benchmarked models:
+
+   * `Random Forest` (baseline)
+   * `LightGBM` (final model – best performance)
+
+4. **Cross-Validation Strategy**
+
+   * Used GroupKFold to preserve wafer-level separation.
+   * Optimized for **F1 score** to balance precision and recall.
+
+5. **Prediction & Postprocessing**
+
+   * Predicted die classes on test data
+   * Refined predictions using die grouping and domain rules
+
+6. **Submission**
+   Generated `scratch_predictions.csv` for submission, formatted per spec.
+
+---
+
+## 🧰 Technologies Used
 
 * Python 3.x
 * Jupyter Notebook
-* Pandas, NumPy
-* Scikit-learn
-* XGBoost
-* Seaborn & Matplotlib (for visualization)
-* Joblib (for parallel processing)
+* pandas, numpy
+* scikit-learn
+* LightGBM
+* matplotlib, seaborn
+* joblib (parallel processing)
 
 ---
+
+## 🙏 Acknowledgment
+
+Developed as part of a **Machine Learning Student** candidate assessment for **National Instruments**.
+
+---
+
+## ⚠️ Disclaimer
+
+This repository is for educational demonstration only. All data and problem definitions remain the intellectual property of **National Instruments**.
